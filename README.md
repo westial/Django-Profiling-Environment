@@ -1,7 +1,8 @@
 Django-Profiling-Environment
 ============================
 
-Environment with multiple deployment and configuration options for benchmarking.
+Environment with multiple deployment and configuration options for Django
+benchmarking.
 
 
 Credits
