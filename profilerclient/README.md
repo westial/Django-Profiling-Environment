@@ -19,8 +19,8 @@ IMPORTANT: before launching tests
 
 Sync servers to the same NTP server:
 
-    $ ntpdate ntp.ubuntu.com
+    `$ ntpdate ntp.ubuntu.com`
 
 Disable CSRF protection in Django settings MIDDLEWARE_CLASSES:
 
-    # 'django.middleware.csrf.CsrfViewMiddleware'
+    `# 'django.middleware.csrf.CsrfViewMiddleware'`

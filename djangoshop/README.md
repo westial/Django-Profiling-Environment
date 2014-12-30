@@ -26,21 +26,22 @@ RDBMS shop option
 Requirements
 ------------
 
-MySQL 5.5
-libmysqlclient-dev
-Python 2.7.6
-python-dev
-libpcre3
-libpcre3-dev
-Python libraries:
-	Django 1.7.1
-	django-bootstrap3
-	MySQLdb
+* MySQL 5.5
+* libmysqlclient-dev
+* Python 2.7.6
+* python-dev
+* libpcre3
+* libpcre3-dev
+* Python libraries:
+** Django 1.7.1
+** django-bootstrap3
+** MySQLdb
 	
 
 Database configuration
 ----------------------
 
+```
 $ mysql -u<user> -p
 
 mysql> CREATE USER 'djangoshop_admz'@'localhost' IDENTIFIED BY '43Erfr_t=12';
@@ -55,18 +56,20 @@ mysql> GRANT CREATE, DROP, DELETE, INSERT, SELECT, UPDATE, ALTER, INDEX, REFEREN
 mysql> FLUSH PRIVILEGES;
 
 mysql> quit
+```
 
 
 Configuring Django
 ------------------
 
+```
 ALTER TABLE `app_rdbms_product` MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `app_rdbms_sale` MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `app_rdbms_user` MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
-
+```
 
 REFERENCES
 ==========
 
-http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
-http://stackoverflow.com/questions/21669354/rebuild-uwsgi-with-pcre-support
+* http://uwsgi-docs.readthedocs.org/en/latest/tutorials/Django_and_nginx.html
+* http://stackoverflow.com/questions/21669354/rebuild-uwsgi-with-pcre-support
