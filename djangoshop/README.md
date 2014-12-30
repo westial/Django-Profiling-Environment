@@ -32,10 +32,7 @@ Requirements
 * python-dev
 * libpcre3
 * libpcre3-dev
-* Python libraries:
-** Django 1.7.1
-** django-bootstrap3
-** MySQLdb
+* Python libraries: Django 1.7.1, django-bootstrap3, MySQLdb
 	
 
 Database configuration
