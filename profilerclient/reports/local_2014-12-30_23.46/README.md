@@ -1,28 +1,28 @@
 Report information
 ==================
 
-* Report name: local_2014-12-29_12.35
+* Report name: local_2014-12-30_23.46
+
 
 Description
 -----------
 
-The configuration of the environment:
-
+* 1000 concurrent requests.
 * djangoshop - RDBMS App. Website and database in the same node.
-* profilerclient and djangoshop in the same node, my personal computer.
+* profilerclient and djangoshop in the same node, the development workstation.
 
 
 Execution
 ---------
 
-profilerclient version: 5.0.0
+profilerclient version: 5.0.1
 
 
 ```
 python profilerclient.py \
     -t http://localhost:8000/rdbms \
-    -o reports/local_2014-12-29_12.35/report.csv \ 
-    -r 10
+    -o reports/local_2014-12-30_23.46/report.csv \ 
+    -c 1000
 ```
 
 Files

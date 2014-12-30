@@ -59,18 +59,30 @@ WSGI_APPLICATION = 'djangoshop.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'djangoshop_rdbms',
+    #     'USER': 'djangoshop_admz',
+    #     'PASSWORD': '43Erfr_t=12',
+    #     'HOST': 'localhost',
+    #     'PORT': 3306,
+    #     'OPTIONS': {
+    #         'read_default_file': '/etc/mysql/my.cnf',
+    #         'init_command': 'SET storage_engine=INNODB'
+    #     }
+    # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangoshop_rdbms',
-        'USER': 'djangoshop_user',
-        'PASSWORD': 'password',
+        'USER': 'root',
+        'PASSWORD': 'trilobite',
         'HOST': 'localhost',
         'PORT': 3306,
         'OPTIONS': {
             'read_default_file': '/etc/mysql/my.cnf',
             'init_command': 'SET storage_engine=INNODB'
         }
-    },
+    }
 }
 
 # Internationalization

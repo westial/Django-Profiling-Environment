@@ -3,69 +3,27 @@
 # Client to launch profiling requests to djangoshop instance, part of Django
 # Profiling probe of concept project.
 #
-# How it works:
-#
-# It's a loop running as times as set in parameter and gets profiling data
-# each turn. The repeated action does actions described below and gets timing
-# and performance reports, got from server side and also from client side:
-#
-# a) Opens homepage. Reports times recorded from client side:
-#
-#       1. client_home_elapsed_seconds: elapsed seconds between started request
-#          and response is received.
-#       2. client_home_error_msg: error message if exists.
-#       3. client_home_http_code: response http code.
-#       4. client_home_result: boolean considering result satisfaction.
-#       5. client_home_started_time: request starting time stamp.
-#       6. client_home_stopped_time: received response time stamp.
-#
-# b) Purchase on main server. Reports times and performance report on server
-#    side:
-#
-#       1. server_buy_cpu_usage: cpu usage percentage in server.
-#       2. server_buy_elapsed_seconds: elapsed seconds between received request
-#          and saved database records of purchase.
-#       3. server_buy_error_msg: error message if exists.
-#       4. server_buy_memory_usage: memory usage megabytes in server.
-#       5. server_buy_result: boolean considering result satisfaction.
-#       6. server_buy_started_time: received request time stamp.
-#       7. server_buy_stopped_time: saved records time stamp.
-#
-# c) Purchase on second server. Reports times and performance report on server
-#    side for server which optionally hosts the external webservices:
-#
-#       1. server_rest_cpu_usage: cpu usage percentage in server.
-#       2. server_rest_elapsed_seconds: elapsed seconds between received request
-#          and saved database records of purchase.
-#       3. server_rest_error_msg: error message if exists.
-#       4. server_rest_memory_usage: memory usage megabytes in server.
-#       5. server_rest_result: boolean considering result satisfaction.
-#       6. server_rest_started_time: received request time stamp.
-#       7. server_rest_stopped_time: saved records time stamp.
-#
-# d) Purchase on client. Reports times report from client side:
-#
-#       1. client_buy_elapsed_seconds: elapsed seconds between started request
-#          and response is received.
-#       2. client_buy_error_msg: error message if exists.
-#       3. client_buy_http_code: response http code.
-#       4. client_buy_result: boolean considering result satisfaction.
-#       5. client_buy_started_time: request starting time stamp.
-#       6. client_buy_stopped_time: received response time stamp.
 #
 
 import random
 import csv
 import json
+import Queue
+from threading import Thread
+import os.path
 
 from vendor.BasicBenchmarker import BasicBenchmarker
 from vendor.Requester import Requester
 
-# Exit codes
+# Codes
 
-EXIT_CSV = -9000
 EXIT_NO_LOADING_PAGE_RESPONSE = -4040
 EXIT_NO_BUY_PAGE_RESPONSE = -4041
+EXIT_EMPTY_OUTPUT_QUEUE = -8000
+EXIT_CSV = -9000
+EXIT_SUCCESS = 0
+
+HTTP_ERROR_UNKNOWN = -100
 
 # Profiler Configuration
 
@@ -76,6 +34,11 @@ USER_AGENT = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; en) Opera 8.0"
 # Fields got after profiling requests
 
 RESULT_FIELDS = [
+
+    # Benchmark
+
+    'concurrent_requests',
+    'benchmark_title',
 
     # Opening
 
@@ -345,13 +308,15 @@ def write_results(filepath, field_names, rows):
     :param rows: list<dict>
     :return: boolean
     """
+    file_exists = os.path.isfile(filepath)
 
-    with open(filepath, 'wb') as csv_file:
+    with open(filepath, 'ab') as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=field_names,
                                     extrasaction='ignore', delimiter=';', 
                                     quoting=csv.QUOTE_NONNUMERIC)
 
-        csv_writer.writeheader()
+        if not file_exists:
+            csv_writer.writeheader()
 
         for row in rows:
             csv_writer.writerow(row)
@@ -378,9 +343,124 @@ def print_header():
     pass
 
 
+def benchmark(rows, product_id, quantity, email, homepage_url,
+              purchase_url):
+    """
+    Consume the benchmarking requests and process the responses.
+    Appends a row in the rows Queue.
+    This function is managed by multiples threads at the same time, for this
+    reason the Queue rows is being updated asynchronously by all consuming
+    threads.
+    :param rows: Queue
+    :param product_id: int
+    :param quantity: int
+    :param email: string
+    :param homepage_url: string
+    :param purchase_url: string
+    """
+    row = {}
+    response_content = ''
+    error_msg = ''
+
+    benchmarker = BasicBenchmarker(usage=False)
+
+    purchase_fields = {'email': email, 'repeat_email': email,
+                       'quantity': quantity}
+
+    #
+    # opens homepage
+    #
+
+    benchmarker.start()
+
+    try:
+        response = homepage_response(homepage_url)
+
+        response_code = response.code
+
+        print_debug('Opened page for loading test')
+
+    except Exception, e:
+        error_msg = append_error(error_msg, e.message)
+
+        response_code = HTTP_ERROR_UNKNOWN
+
+        print_debug('Error loading page test {page}. Exception: {exception}'
+                    .format(page=homepage_url, exception=e.message))
+
+        #exit(EXIT_NO_LOADING_PAGE_RESPONSE)
+
+    client_report = benchmarker.report()   # initializes client report
+
+    new_row_fields = homepage_results(report=client_report,
+                                      error_msg=error_msg,
+                                      http_code=response_code)
+
+    row.update(new_row_fields)
+
+    error_msg = ''		# resets error message
+
+    #
+    # purchase
+    #
+
+    benchmarker.start()
+
+    try:
+        response = purchase_response(target=purchase_url,
+                                     product_id=product_id,
+                                     form_fields=purchase_fields)
+
+        response_content = Requester.read_response(response)
+
+        response_code = response.code
+
+        print_debug('Purchase is done')
+
+    except Exception, e:
+        error_msg = append_error(error_msg, e.message)
+
+        response_code = HTTP_ERROR_UNKNOWN
+
+        print_debug('Error purchasing on "{page}". Exception: {exception}'
+                    .format(page=purchase_url, exception=e.message))
+
+        #exit(EXIT_NO_BUY_PAGE_RESPONSE)
+
+    benchmarker.stop()
+
+    client_report = benchmarker.report()   # initializes client report
+
+    try:
+        server_report = response_report(response_content)
+
+        print_debug('Server report is analysed')
+
+    except Exception, e:
+        server_report = {}
+
+        error_msg = append_error(error_msg, e.message)
+
+        print_debug('Error analysing report for content "{content}".'
+                    ' Exception: {exception}'
+                    .format(content=response_content, exception=e.message))
+
+    new_row_fields = purchase_results(report=client_report,
+                                      content=server_report,
+                                      error_msg=error_msg,
+                                      http_code=response_code)
+
+    row.update(new_row_fields)
+
+    rows.put(row)
+
+    pass
+
+
 # Main
 
-def profiling(loops, host, buy_query, output_file, home_query=''):
+def run(concurrent, host, buy_query, output_file, home_query='',
+        benchmark_title=''):
     """
     Main handler of this module.
     :return: boolean
@@ -395,113 +475,87 @@ def profiling(loops, host, buy_query, output_file, home_query=''):
                                                       buy_query=buy_query,
                                                       output_file=output_file))
 
-    rows = []
+    results = Queue.Queue(maxsize=concurrent)
+
     homepage_url = host + home_query
     purchase_url = host + buy_query
 
-    profiler = BasicBenchmarker(usage=False)
+    threads = []
 
-    while loops > 0:
+    counter = concurrent
+
+    # start threads
+
+    while counter > 0:
 
         product_id = rand_product_id()
         quantity = rand_quantity()
         email = rand_email()
 
-        row = {}
-        response = None
-        response_content = ''
-        error_msg = ''
+        thread_params = {'rows': results, 'product_id': product_id,
+                         'quantity': quantity, 'email': email,
+                         'homepage_url': homepage_url,
+                         'purchase_url': purchase_url}
 
-        purchase_fields = {'email': email, 'repeat_email': email,
-                           'quantity': quantity}
+        thread = Thread(target=benchmark, kwargs=thread_params)
 
-        #
-        # opens homepage
-        #
+        thread.start()
 
-        profiler.start()
+        threads.append(thread)
 
-        try:
-            response = homepage_response(homepage_url)
+        counter -= 1  # discount
 
-            print_debug('Opened page for loading test')
+        print_debug('New benchmark thread is started.')
 
-        except Exception, e:
-            # error_msg = append_error(error_msg, e.message)
+    # wait the threads finish
 
-            print_debug('Error loading page test {page}. Exception: {exception}'
-                        .format(page=homepage_url, exception=e.message))
+    counter = len(threads)
 
-            exit(EXIT_NO_LOADING_PAGE_RESPONSE)
+    if concurrent != counter:
 
-        client_report = profiler.report()   # initializes client report
+        print_debug('WARNING: Check why there are not the same configured'
+                    'concurrent value ({!s}) as created threads ({!s}).'
+                    .format(concurrent, counter))
 
-        new_row_fields = homepage_results(report=client_report,
-                                          error_msg=error_msg,
-                                          http_code=response.code)
+    for thread in threads:
 
-        row.update(new_row_fields)
+        thread.join()
 
-        error_msg = ''		# resets error message
+        counter -= 1  # discount
 
-        #
-        # purchase
-        #
+        print_debug('Benchmark thread is finished the job.')
 
-        profiler.start()
+        print_debug('Remaining {!s} thread/s.'
+                    .format(counter))
 
-        try:
-            response = purchase_response(target=purchase_url,
-                                         product_id=product_id,
-                                         form_fields=purchase_fields)
+    # Write rows in file
 
-            response_content = Requester.read_response(response)
+    if results.empty():
 
-            print_debug('Purchase is done')
+        print_debug('Rows queue is empty.')
 
-        except Exception, e:
-            # error_msg = append_error(error_msg, e.message)
-
-            print_debug('Error purchasing on "{page}". Exception: {exception}'
-                        .format(page=purchase_url, exception=e.message))
-
-            exit(EXIT_NO_BUY_PAGE_RESPONSE)
-
-        client_report = profiler.report()   # initializes client report
-
-        try:
-            server_report = response_report(response_content)
-
-            print_debug('Server report is analysed')
-
-        except Exception, e:
-            server_report = {}
-            
-            error_msg = append_error(error_msg, e.message)
-
-            print_debug('Error analysing report for content "{content}".'
-                        ' Exception: {exception}'
-                        .format(content=response_content, exception=e.message))
- 
-
-        new_row_fields = purchase_results(report=client_report,
-                                          content=server_report,
-                                          error_msg=error_msg,
-                                          http_code=response.code)
-
-        row.update(new_row_fields)
-
-        rows.append(row)
-
-        loops -= 1  # discount
-
-        print_debug('Row is appended to results report.')
-
-        print_debug('Remains {loops} request/s.'
-                    .format(loops=loops))
+        exit(EXIT_EMPTY_OUTPUT_QUEUE)
 
     try:
-        write_results(output_file, RESULT_FIELDS, rows)
+
+        file_exists = os.path.isfile(output_file)
+
+        with open(output_file, 'ab') as csv_file:
+            csv_writer = csv.DictWriter(csv_file, fieldnames=RESULT_FIELDS,
+                                        extrasaction='ignore', delimiter=';',
+                                        quoting=csv.QUOTE_NONNUMERIC)
+
+            if not file_exists:
+                csv_writer.writeheader()
+
+            while not results.empty():
+
+                row = results.get()
+
+                row['concurrent_requests'] = concurrent
+                row['benchmark_title'] = benchmark_title
+
+                csv_writer.writerow(row)
 
         print_debug('Output file "{file}" is written'.format(file=output_file))
 
@@ -512,8 +566,10 @@ def profiling(loops, host, buy_query, output_file, home_query=''):
 
         exit(EXIT_CSV)
 
+    pass
 
-# commandline entry
+
+# Entry point
 
 if __name__ == '__main__':
     import argparse
@@ -526,8 +582,11 @@ if __name__ == '__main__':
                                                  ' profiling probes'
                                                  ' environment.')
 
-    parser.add_argument('-r', '--repeat', help='Repeat factor.', default=1,
-                        type=int)
+    parser.add_argument('-a', '--benchmark_title', help='Benchmark title',
+                        default='')
+
+    parser.add_argument('-c', '--concurrent', help='Concurrent factor.',
+                        default=1, type=int)
 
     parser.add_argument('-t', '--target', help='Root url of the target.',
                         required=True)
@@ -543,5 +602,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    profiling(loops=args.repeat, host=args.target, home_query=args.page_query,
-              buy_query=args.buy_query, output_file=args.output)
+    run(concurrent=args.concurrent, host=args.target,
+        home_query=args.page_query, buy_query=args.buy_query,
+        output_file=args.output)
+
+    exit(EXIT_SUCCESS)

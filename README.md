@@ -39,50 +39,48 @@ deploying them in different nodes is an interesting option either to have in
 account.
 
 
-### Components
+Components
+----------
 
-#### profilerclient
+Inside each component directory there is a Readme file with useful information.
+
+
+### profilerclient
 
 This python module launches that does the benchmark over djangoshop and records
 the results into a csv file.
 
-This tool makes a request to the djangoshop component simulating the "purchase"
-click with an special option "profiling" enabled. With this enabled option, the
-djangoshop component will returns a JSON formatted response with its own
-benchmarking information.
+This tool makes a batch of concurrent requests to the djangoshop component 
+simulating the "purchase" click with an special option "profiling" enabled.
+With this enabled option, the djangoshop component will returns a JSON formatted
+response with its own benchmarking information.
 
 
-#### djangoshop
+### djangoshop
 
 The Django site where the customer clicks on the purchase button. The list of
 products is accessible in this website too.
 
 
-##### Directories
+Recommendations
+---------------
 
-* app_rdbms: RDBMS App.
-* djangoshop: root Django directory.
-* etc: configuration files for related services. In this case nginx and uwsgi.
-* media: media files directory.
-* static: css, javascript, image and other frontend files.
-* static_root: Django admin files.
-* vendor: python modules not based on Django.
+Create a directory exclusive for a benchmark against a specific deployment 
+configuration and save in the same directory information about the server/s 
+involved in the benchmark.
 
+Writing the results to a file as information about the environment is a very
+good practice. If you are using linux may be you can use the commands below:
 
-##### djangoshop - RDBMS App
+```
+$ cat /proc/version
+$ lscpu
+$ free -m
+```
 
-This App of this component is the traditional deployment for a website with
-database: a frontend and backend based on Django and the MySQL database.
+Or all in one command with the output to a file:
 
-Interesting options for this App benchmarking:
-
-* Website and Database in the same node.
-* Website and Database in different node.
-
-
-##### djangoshop - Cassandra App
-
---> In construction <--
+`printf "$(cat /proc/version)\n\n$(lscpu)\n\n$(free -m)\n" > outputfile.txt
 
 
 Who could need this environment
