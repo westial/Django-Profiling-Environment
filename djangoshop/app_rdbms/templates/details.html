@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.title }} - Django Profiling{% endblock %}
+
+{% block content %}
+
+<!-- Init product details -->
+<div class="row">
+
+    <div class="col-md-4">
+
+        <img class="img-responsive" src="{% static PRODUCTS_IMG_DIR %}{{ product.image }}" />
+
+    </div>
+
+    <div class="col-md-5">
+
+        <h2>{{ product.title }} ({{ product.date }})</h2>
+
+        <div class="product-description">{{ product.description }}</div>
+
+        {% if product.inventory > 0 and product.inventory <= 50 %}
+
+            <div class="alert alert-danger" role="alert">
+                Remaining {{ product.inventory }} items only. Be hurry!
+            </div>
+
+        {% elif product.inventory <= 1000 %}
+
+            <div class="alert alert-warning" role="alert">
+                Remaining {{ product.inventory }} items.
+                You can't throw so much...
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info" role="alert">
+                Remaining {{ product.inventory }} items.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-3">
+
+        <h3>Purchase form</h3>
+
+        <!-- Init purchasing -->
+        <form action="/rdbms/{{ product.id }}/purchase/" method="post">
+
+            <div class="panel panel-info"><!-- Init panel purchasing -->
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Purchase product</h3>
+            </div>
+
+                <div class=panel-body">
+
+                    <div class="std-margins payment-form">
+
+                        {% csrf_token %}
+
+                        {{ purchase_form }}
+
+                        <input type="submit" value="Buy now!"
+                                 class="btn btn-primary">
+
+                    </div>
+
+                </div>
+
+            </div><!-- End panel purchasing -->
+
+        </form><!-- End purchasing -->
+
+    </div>
+
+</div><!-- End product details -->
+
+{% endblock %}

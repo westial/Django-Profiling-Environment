@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home - Django Profiling{% endblock %}
+
+{% block content %}
+
+<!-- Init homepage center -->
+<div class="row">
+
+    <div class="col-md-12">
+
+        <!-- Init products list -->
+        <div class="row">
+
+            {% if products_list %}
+
+                {% for product in products_list %}
+
+                    <div class="col-md-3">
+                        <a href="/rdbms/{{ product.id }}/details/" class="caption">
+                            <img class="img-responsive" src="{% static PRODUCTS_IMG_DIR %}{{ product.image }}" />
+                            <br>
+                            {{ product.title }}
+                        </a>
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="alert alert-info" role="alert">
+                    No products are available.
+                </div>
+
+            {% endif %}
+
+        </div><!-- End products list -->
+
+    </div>
+
+    <!--<div class="col-md-6">-->
+
+        <!--&lt;!&ndash; Init charts sector &ndash;&gt;-->
+        <!--<div class="row">-->
+
+        <!--</div>&lt;!&ndash; End charts sector &ndash;&gt;-->
+
+    <!--</div>-->
+
+</div><!-- End homepage center -->
+{% endblock %}

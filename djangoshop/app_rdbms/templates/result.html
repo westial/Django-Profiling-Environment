@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Successful result - Django Profiling{% endblock %}
+
+{% block content %}
+
+<!-- Init result center -->
+<div class="row">
+
+    <div class="col-md-12">
+
+        {% if result %}
+
+            <div class="alert alert-success" role="alert">
+                <h3>The payment finished successfully</h3>
+                <p>Product: {{ product.title }} ({{ product.date }})</p>
+                <p>Quantity: {{ sale.quantity }} units</p>
+                <p>Sale ID: {{ sale.id }}</p>
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-danger" role="alert">
+                <h3>Error, the payment failed</h3>
+                <p>Product: {{ product.title }} ({{ product.date }})</p>
+                <p>Quantity: {{ sale.quantity }} units</p>
+
+                <p><button type="button" class="btn btn-default"
+                        aria-label="Left Align"
+                        onclick="javascript:location.href='/rdbms/{{ product.id }}/details/';">
+
+                    <span class="glyphicon glyphicon-chevron-left"
+                          aria-hidden="true"></span>
+
+                    Try again
+                </button></p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div><!-- End result center -->
+{% endblock %}

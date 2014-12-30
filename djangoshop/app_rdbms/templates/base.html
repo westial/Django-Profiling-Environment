@@ -1,0 +1,38 @@
+{% load static %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <title>{% block title %}Django Profiling{% endblock %}</title>
+
+    {# Load CSS and JavaScript #}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body>
+<nav role="navigation" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/rdbms" class="navbar-brand">Django Shop (Profiling)</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/rdbms">Home</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+        </ul>
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
