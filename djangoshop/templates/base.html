@@ -1,5 +1,6 @@
 {% load static %}
 {% load bootstrap3 %}
+{% load www_app %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,12 +18,10 @@
 <nav role="navigation" class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="{{ app_basedir }}" class="navbar-brand">Django Shop (Profiling)</a>
+            <a href="{{ request.get_full_path|www_app }}/" class="navbar-brand">Django Shop (Profiling)</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ app_basedir }}">Home</a></li>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="{{ request.get_full_path|www_app }}/">Home</a></li>
         </ul>
     </div>
     <!-- /.container-fluid -->

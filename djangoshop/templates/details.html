@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
+{% load www_app %}
 
 {% block title %}{{ product.title }} - Django Profiling{% endblock %}
 
 {% block content %}
 
-
-        {{ request.get_full_path }}
-        {{ request.get_path }}
 <!-- Init product details -->
 <div class="row">
 
@@ -51,7 +49,7 @@
         <h3>Purchase form</h3>
 
         <!-- Init purchasing -->
-        <form action="{{ app_basedir }}/{{ product.id }}/purchase/" method="post">
+        <form action="{{ request.get_full_path|www_app }}/{{ product.id }}/purchase/" method="post">
 
             <div class="panel panel-info"><!-- Init panel purchasing -->
 
