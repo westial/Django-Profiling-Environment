@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+{% load www_app %}
 {% load static %}
 
 {% block title %}Home - Django Profiling{% endblock %}
 
 {% block content %}
+
+        {{ request.get_full_path|www_app }}
 
 <!-- Init homepage center -->
 <div class="row">
@@ -18,7 +21,7 @@
                 {% for product in products_list %}
 
                     <div class="col-md-3">
-                        <a href="/rdbms/{{ product.id }}/details/" class="caption">
+                        <a href="{{ product.id }}/details/" class="caption">
                             <img class="img-responsive" src="{% static PRODUCTS_IMG_DIR %}{{ product.image }}" />
                             <br>
                             {{ product.title }}

@@ -7,6 +7,8 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
+# Change on production. Using development database configuration if True.
+IN_DEVELOPMENT = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -30,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_cassandra_engine',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'app_rdbms',
+    'app_cassandra',
+    'tags',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,32 +63,60 @@ WSGI_APPLICATION = 'djangoshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+development_mysql = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'djangoshop_rdbms',
+    'USER': 'root',
+    'PASSWORD': 'trilobite',
+    'HOST': 'localhost',
+    'PORT': 3306,
+    'OPTIONS': {
+        'read_default_file': '/etc/mysql/my.cnf',
+        'init_command': 'SET storage_engine=INNODB'
+    }
+}
+
+production_mysql = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'djangoshop_rdbms',
+    'USER': 'djangoshop_admz',
+    'PASSWORD': '43Erfr_t=12',
+    'HOST': 'localhost',
+    'PORT': 3306,
+    'OPTIONS': {
+        'read_default_file': '/etc/mysql/my.cnf',
+        'init_command': 'SET storage_engine=INNODB'
+    }
+}
+
+if IN_DEVELOPMENT:
+    default_mysql = development_mysql
+
+else:
+    default_mysql = production_mysql
+
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'djangoshop_rdbms',
-    #     'USER': 'djangoshop_admz',
-    #     'PASSWORD': '43Erfr_t=12',
-    #     'HOST': 'localhost',
-    #     'PORT': 3306,
-    #     'OPTIONS': {
-    #         'read_default_file': '/etc/mysql/my.cnf',
-    #         'init_command': 'SET storage_engine=INNODB'
-    #     }
-    # },
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangoshop_rdbms',
-        'USER': 'root',
-        'PASSWORD': 'trilobite',
-        'HOST': 'localhost',
-        'PORT': 3306,
+    'default': default_mysql,
+
+    'mysql': default_mysql,
+
+    'cassandra': {      # Using authentication is recommended for production.
+        'ENGINE': 'django_cassandra_engine',
+        'NAME': 'djangoshop_cassandra',
+        'HOST': '10.0.0.2',
         'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-            'init_command': 'SET storage_engine=INNODB'
+            'replication': {
+                'strategy_class': 'SimpleStrategy',
+                'replication_factor': 3
+            }
         }
     }
 }
+
+DATABASE_ROUTERS = [
+    'app_rdbms.models.MySQLRouter',
+    'app_cassandra.models.CassandraRouter',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -106,8 +139,6 @@ STATIC_URL = '/static/'
 
 # Using a static resources directory shared by all the apps
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static_root/")
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static/"),
 )
@@ -120,9 +151,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "djangoshop.context_processors.global_settings",        # custom
+    "django.core.context_processors.request",
+    # custom settings first in root context and also by app
+    "djangoshop.context_processors.global_settings",
 )
 
 # Custom Constants
 # See context_processor.py
 PRODUCTS_IMG_DIR = 'images/products/'
+
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'),)

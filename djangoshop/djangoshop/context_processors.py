@@ -7,5 +7,5 @@ from django.conf import settings
 
 def global_settings(request):
     return {
-        'PRODUCTS_IMG_DIR': settings.PRODUCTS_IMG_DIR
+        'PRODUCTS_IMG_DIR': settings.PRODUCTS_IMG_DIR,
     }

@@ -54,7 +54,7 @@ Requirements
 
 * MySQL 5.5
 * libmysqlclient-dev
-* Python libraries: MySQLdb
+* Python libraries: MySQLdb, django-cassandra-engine
 	
 
 Database configuration
@@ -99,12 +99,6 @@ Cassandra App (app_cassandra)
 =============================
 
 Deployment consisting on a Django website with a noSQL Cassandra database.
-
-
-Requirements
-------------
-
-* Python libraries: django-cassandra-engine
 
 
 References

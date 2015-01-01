@@ -6,9 +6,9 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 from django.contrib import messages
 
-from app_rdbms.models import Product, User, Sale
-from djangoshop import payment
+from app_cassandra.models import Product, User, Sale
 from form_purchase import PurchaseForm
+from djangoshop import payment
 from vendor.BasicBenchmarker import BasicBenchmarker
 
 
@@ -23,7 +23,7 @@ def index(request):
     """
     products_list = Product.objects\
         .filter(date__gte=timezone.now())\
-        .order_by('date')
+        .allow_filtering()
 
     template = loader.get_template('index.html')
 
@@ -37,8 +37,8 @@ def index(request):
 def details(request, product_id):
     """
     Displays product
-    :param request:
-    :param product_id: int
+    :param request: HttpRequest
+    :param product_id: uuid
     :return: HttpResponse
     """
 

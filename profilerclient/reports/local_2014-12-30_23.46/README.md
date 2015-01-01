@@ -7,6 +7,7 @@ Report information
 Description
 -----------
 
+* Development webserver for Django (manage.py runserver).
 * 1000 concurrent requests.
 * djangoshop - RDBMS App. Website and database in the same node.
 * profilerclient and djangoshop in the same node, the development workstation.
@@ -29,6 +30,4 @@ Files
 -----
 
 * report.csv: Report results.
-* cpuinfo.txt: output after command `cat /proc/cpuinfo` on the unique node.
-* meminfo.txt: output after command `cat /proc/meminfo` on the unique node.
-* lscpu.txt: output after command `lscpu` on the unique node.
+* nodesinfo.txt: server information.

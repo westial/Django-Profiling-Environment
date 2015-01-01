@@ -81,7 +81,7 @@ $ free -m
 
 Or all in one command with the output to a file:
 
-`printf "$(cat /proc/version)\n\n$(lscpu)\n\n$(free -m)\n" > outputfile.txt
+`printf "$(cat /proc/version)\n\n$(lscpu)\n\n$(free -m)\n" > outputfile.txt`
 
 
 Who could need this environment
