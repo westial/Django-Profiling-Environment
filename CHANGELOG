@@ -1,0 +1,8 @@
+Version 0.5.1 djangoshop-Cassandra version 0.5.0 profilerclient version 0.5.3 djangoshop-RDBMS version 1.0.0
+FIXED Added support for Cassandra App. New command option app directory name separated of the host url.
+FIXED Bug 33 - Cassandra App Models
+Bug 37 - Share templates between apps
+Version 0.5.0 djangoshop-RDBMS version 1.0.0 profilerclient version 0.5.2
+FIXED: Bug 32 - Benchmark with concurrency
+Minor changes in README files.
+Initial commit
