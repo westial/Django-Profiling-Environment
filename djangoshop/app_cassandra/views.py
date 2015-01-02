@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
@@ -42,7 +42,12 @@ def details(request, product_id):
     :return: HttpResponse
     """
 
-    product = get_object_or_404(Product, pk=product_id)
+    try:
+        product = Product.objects.get(id=product_id)
+
+    except Product.DoesNotExist:
+
+        raise Http404
 
     purchase_form = PurchaseForm()
 
@@ -87,7 +92,7 @@ def purchase(request, product_id, profiling=False):
             })
 
     try:
-        product = Product.objects.get(pk=product_id)
+        product = Product.objects.get(id=product_id)
 
     except Product.DoesNotExist:
 
@@ -190,14 +195,20 @@ def purchase(request, product_id, profiling=False):
         product.inventory -= form_quantity
         product.save()
 
-        user = User(email=form_email)
+        user = User(email=form_email, created=timezone.now())
         user.save()
 
-        sale = Sale(user_id=user.id, product_id=product_id,
-                    quantity=form_quantity)
+        created = timezone.now()
+
+        sale = Sale(user_email=user.email, product_id=product_id,
+                    quantity=form_quantity, created=created)
         sale.save()
 
-        saved = bool(sale.id)
+        saved_sale = Sale.objects.filter(product_id=product_id,
+                                         user_email=user.email,
+                                         created=created)
+
+        saved = bool(len(saved_sale))
 
         if not saved:
 

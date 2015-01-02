@@ -34,6 +34,7 @@ Directories
 * media: media files directory.
 * static: css, javascript, image and other frontend files.
 * static_root: Django admin files.
+* tags: Django app sharing the tags and filters exclusively.
 * vendor: python modules not based on Django.
 
 

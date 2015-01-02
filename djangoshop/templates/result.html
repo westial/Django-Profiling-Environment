@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load www_app %}
 
 {% block title %}Successful result - Django Profiling{% endblock %}
 
@@ -16,7 +17,7 @@
                 <h3>The payment finished successfully</h3>
                 <p>Product: {{ product.title }} ({{ product.date }})</p>
                 <p>Quantity: {{ sale.quantity }} units</p>
-                <p>Sale ID: {{ sale.id }}</p>
+                <p>Sale Reference: #{{ sale.product_id }}+{{ sale.user_email }}+{{ sale.created }}#</p>
             </div>
 
         {% else %}
@@ -28,7 +29,7 @@
 
                 <p><button type="button" class="btn btn-default"
                         aria-label="Left Align"
-                        onclick="javascript:location.href='{% static APP_ROOT_WWW %}/{{ product.id }}/details/';">
+                        onclick="javascript:location.href='{{ request.get_full_path|www_app }}/{{ product.id }}/details/';">
 
                     <span class="glyphicon glyphicon-chevron-left"
                           aria-hidden="true"></span>

@@ -31,6 +31,11 @@ DEBUG_MODE = True
 USER_AGENT = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; en) Opera 8.0"
 
 
+# Djangoshop constants
+
+APP_RDBMS_DIRNAME = 'rdbms'
+APP_CASSANDRA_DIRNAME = 'cassandra'
+
 # Fields got after profiling requests
 
 RESULT_FIELDS = [
@@ -85,12 +90,23 @@ def rand_email(name_length=10):
     return email
 
 
-def rand_product_id():
+def rand_product_id(app):
     """
     Returns an id randomly
-    :return: int
+    :param app: string
+    :return: int|string
     """
-    valid_products = [2, 3, 4, 5]
+    if app == APP_RDBMS_DIRNAME:
+        valid_products = [2, 3, 4, 5]
+
+    elif app == APP_CASSANDRA_DIRNAME:
+        valid_products = [
+            'c382310f-bbf9-445b-bec8-cfb9d723cda7',
+            '734951a1-b6b4-4412-af22-791366fe8698',
+            'f259a3b5-e8bd-4494-b6ac-d1bd269c88a2',
+            '466a83c1-f2c2-4e35-8d10-8533f496a8e2',
+            '04a96d73-3aa3-4ee7-b52e-b44351805b95',
+        ]
     returner = random.choice(seq=valid_products)
 
     return returner
@@ -459,7 +475,7 @@ def benchmark(rows, product_id, quantity, email, homepage_url,
 
 # Main
 
-def run(concurrent, host, buy_query, output_file, home_query='',
+def run(concurrent, host, app, buy_query, output_file, home_query='',
         benchmark_title=''):
     """
     Main handler of this module.
@@ -477,6 +493,7 @@ def run(concurrent, host, buy_query, output_file, home_query='',
 
     results = Queue.Queue(maxsize=concurrent)
 
+    host = host + '/' + app
     homepage_url = host + home_query
     purchase_url = host + buy_query
 
@@ -488,7 +505,7 @@ def run(concurrent, host, buy_query, output_file, home_query='',
 
     while counter > 0:
 
-        product_id = rand_product_id()
+        product_id = rand_product_id(app)
         quantity = rand_quantity()
         email = rand_email()
 
@@ -588,8 +605,11 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--concurrent', help='Concurrent factor.',
                         default=1, type=int)
 
-    parser.add_argument('-t', '--target', help='Root url of the target.',
-                        required=True)
+    parser.add_argument('-t', '--target',
+                        help='Target domain. No slash at end.', required=True)
+
+    parser.add_argument('-d', '--app_dirname',
+                        help='Directory name of the Django App.', required=True)
 
     parser.add_argument('-p', '--page_query', help='Loading page URI query',
                         default='')
@@ -602,7 +622,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    run(concurrent=args.concurrent, host=args.target,
+    run(concurrent=args.concurrent, host=args.target, app=args.app_dirname,
         home_query=args.page_query, buy_query=args.buy_query,
         output_file=args.output)
 

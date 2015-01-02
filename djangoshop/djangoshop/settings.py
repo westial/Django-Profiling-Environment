@@ -158,6 +158,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # Custom Constants
 # See context_processor.py
-PRODUCTS_IMG_DIR = 'images/products/'
+PRODUCTS_IMG_DIR = '/media/products/'
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'),)

@@ -12,7 +12,7 @@ class Product(Model):
     title = columns.Text(required=True, max_length=90)
     description = columns.Text()
     image = columns.Text(max_length=255)
-    inventory = columns.BigInt(primary_key=True, clustering_order='DESC')
+    inventory = columns.BigInt()
     created = columns.DateTime()
     modified = columns.DateTime()
 
