@@ -3,6 +3,7 @@
 # Client to launch profiling requests to djangoshop instance, part of Django
 # Profiling probe of concept project.
 #
+# TODO: Object oriented design.
 #
 
 import random
@@ -10,6 +11,7 @@ import csv
 import json
 import Queue
 from threading import Thread
+from collections import Counter
 import os.path
 
 from vendor.BasicBenchmarker import BasicBenchmarker
@@ -286,18 +288,21 @@ def response_report(content):
     return report
 
 
-def append_error(error_msg, new):
+def append_error(error_msg, new, unique=True):
     """
     Append error message.
+
     :param error_msg: string
     :param new: string
+    :param unique: bool if True, error is not appended the first is the most
+    important error and unique in report.
     :return: string
     """
-    if error_msg:
+    if error_msg and not unique:
         error_msg += ' + '
         error_msg += new
         
-    else:
+    elif not error_msg:
         error_msg = new
 
     return error_msg
@@ -473,6 +478,128 @@ def benchmark(rows, product_id, quantity, email, homepage_url,
     pass
 
 
+def print_summary(output_file, concurrent, recap_http_codes, recap_http_msgs,
+                  **kwargs):
+    """
+    Prints a summary of the report.
+    :param output_file: string
+    :param concurrent: int
+    :param recap_http_codes: Counter
+    :param recap_http_msgs: Counter
+    """
+    recap_http_errors = recap_http_codes
+    recap_http_errors[200] = 0       # ignore no error response
+
+    failed_purchases = len(list(recap_http_errors.elements()))
+
+    response_codes = recap_http_codes.most_common()
+
+    error_msgs = recap_http_msgs.most_common()
+
+    print
+    print 'Results summary of file "{!s}":'.format(output_file)
+
+    print
+
+    print 'Concurrent:\t\t\t{!s}'.format(concurrent)
+    print 'Failed purchases:\t{!s}'.format(failed_purchases)
+
+    print
+
+    print 'Maximum value by field:'
+
+    for record, max_value in kwargs.iteritems():
+        print '\t{!s} \t\t\tfor field "{!s}"'.format(max_value, record)
+
+    print
+
+    if len(error_msgs):
+        print 'Common errors:'
+
+        for title, count in error_msgs:
+            print '\t{!s} found.\t\t{!s}'.format(count, title)
+
+    else:
+        print 'No errors found.'
+
+    print
+
+    if len(response_codes):
+        print 'Response http codes:'
+
+        for title, count in response_codes:
+            print '\t{!s} found.\t\t{!s}'.format(count, title)
+
+        print '({!s} is the code for unknown errors)'.format(HTTP_ERROR_UNKNOWN)
+
+    else:
+        print 'WARNING: No http response codes found.'
+
+
+def check_failed_result_msg(row, recap_http_msgs):
+    """
+    Check the buy response and recap the error code safely.
+
+    :param row: dict report for one shot within concurrent
+    :param recap_http_msgs: Counter indexed errors by error message
+    :return: Counter
+    """
+    try:
+
+        response_msg = row['client_buy_error_msg']
+
+        if response_msg:
+            recap_http_msgs[response_msg] += 1
+
+    except KeyError, e:
+
+        print_debug('"server_buy_result" failed but '
+                    '"client_buy_error_msg" not exists. '
+                    'Exception: {!s}'.format(e.message))
+
+    except ValueError, e:
+
+        print_debug('"server_buy_result" failed but '
+                    '"client_buy_error_msg" is empty. '
+                    'Exception: {!s}'.format(e.message))
+
+        raise
+
+    return recap_http_msgs
+
+
+def check_failed_result_code(row, recap_http_codes):
+    """
+    Check the buy response and recap the error code safely.
+
+    :param row: dict report for one shot within concurrent
+    :param recap_http_codes: Counter indexed errors by http code
+    :return: Counter
+    """
+    try:
+
+        response_code = row['client_buy_http_code']
+
+        if response_code:
+            recap_http_codes[int(response_code)] += 1
+
+    except KeyError, e:
+
+        print_debug('"server_buy_result" failed but '
+                    '"client_buy_http_code" not exists. '
+                    'Exception: {!s}'.format(e.message))
+
+    except ValueError, e:
+
+        print_debug('"server_buy_result" failed but '
+                    '"client_buy_http_code" is empty. '
+                    'Exception: {!s}'.format(e.message))
+
+        raise
+
+    return recap_http_codes
+
+
 # Main
 
 def run(concurrent, host, app, buy_query, output_file, home_query='',
@@ -496,6 +623,14 @@ def run(concurrent, host, app, buy_query, output_file, home_query='',
     host = host + '/' + app
     homepage_url = host + home_query
     purchase_url = host + buy_query
+
+    max_server_buy_cpu_usage = 0
+    max_server_buy_memory_usage = 0
+    max_server_buy_elapsed_seconds = 0
+    max_client_buy_elapsed_seconds = 0
+
+    recap_http_codes = Counter()    # Counter for indexing errors by http code
+    recap_http_msgs = Counter()     # Counter for indexing errors by message
 
     threads = []
 
@@ -572,9 +707,61 @@ def run(concurrent, host, app, buy_query, output_file, home_query='',
                 row['concurrent_requests'] = concurrent
                 row['benchmark_title'] = benchmark_title
 
+                max_server_buy_cpu_usage = compare_max_record(
+                    max_record=max_server_buy_cpu_usage,
+                    row=row,
+                    record_key='server_buy_cpu_usage')
+
+                max_server_buy_memory_usage = compare_max_record(
+                    max_record=max_server_buy_memory_usage,
+                    row=row,
+                    record_key='server_buy_memory_usage')
+
+                max_server_buy_elapsed_seconds = compare_max_record(
+                    max_record=max_server_buy_elapsed_seconds,
+                    row=row,
+                    record_key='server_buy_elapsed_seconds')
+
+                max_client_buy_elapsed_seconds = compare_max_record(
+                    max_record=max_client_buy_elapsed_seconds,
+                    row=row,
+                    record_key='client_buy_elapsed_seconds')
+
+                try:
+
+                    if row['server_buy_result'] != 'True':
+
+                        recap_http_codes = check_failed_result_code(
+                            row, recap_http_codes
+                        )
+
+                        recap_http_msgs = check_failed_result_msg(
+                            row, recap_http_msgs
+                        )
+
+                except KeyError, e:
+
+                    print_debug('Empty "server_buy_result". '
+                                'Exception: {!s}'.format(e.message))
+
+                    recap_http_codes = check_failed_result_code(
+                        row, recap_http_codes
+                    )
+
+                    recap_http_msgs = check_failed_result_msg(
+                        row, recap_http_msgs
+                    )
+
                 csv_writer.writerow(row)
 
         print_debug('Output file "{file}" is written'.format(file=output_file))
+
+        print_summary(output_file, concurrent, recap_http_codes,
+                      recap_http_msgs,
+                      client_buy_elapsed_seconds=max_client_buy_elapsed_seconds,
+                      server_buy_memory_usage=max_server_buy_memory_usage,
+                      server_buy_elapsed_seconds=max_server_buy_elapsed_seconds,
+                      server_buy_cpu_usage=max_server_buy_cpu_usage)
 
     except csv.Error, e:
         print_debug('Error writing on output file "{file}".'
@@ -584,6 +771,27 @@ def run(concurrent, host, app, buy_query, output_file, home_query='',
         exit(EXIT_CSV)
 
     pass
+
+
+def compare_max_record(max_record, row, record_key):
+    """
+    Compares new record with current maximum of same record and returns the
+    greatest.
+
+    :param max_record: float|int
+    :param row: dict
+    :param record_key: string
+    :return: float|int
+    """
+    try:
+        if row[record_key] > max_record:
+            return row[record_key]
+
+        else:
+            return max_record
+
+    except KeyError:
+        return max_record
 
 
 # Entry point

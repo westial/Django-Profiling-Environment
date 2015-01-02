@@ -16,7 +16,7 @@ Description
 Execution
 ---------
 
-profilerclient version: 5.0.1
+profilerclient version: 0.5.1
 
 
 ```
