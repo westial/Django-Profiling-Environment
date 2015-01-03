@@ -72,6 +72,7 @@ ALTER TABLE `app_rdbms_user` MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 App database tables Structure
 -----------------------------
 
+```
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -126,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `app_rdbms_user` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2458 ;
+```
 
 
 References
@@ -144,6 +146,7 @@ Deployment consisting on a Django website with a noSQL Cassandra database.
 Database Description
 --------------------
 
+```
 CREATE KEYSPACE djangoshop_cassandra WITH replication = {
   'class': 'SimpleStrategy',
   'replication_factor': '3'
@@ -215,7 +218,7 @@ CREATE TABLE user (
   memtable_flush_period_in_ms=0 AND
   compaction={'class': 'SizeTieredCompactionStrategy'} AND
   compression={'sstable_compression': 'LZ4Compressor'};
-
+```
 
 References
 ----------
