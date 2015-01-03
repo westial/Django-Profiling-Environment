@@ -64,14 +64,14 @@ Database configuration
 ```
 $ mysql -u<user> -p
 
-mysql> CREATE USER 'djangoshop_admz'@'localhost' IDENTIFIED BY '43Erfr_t=12';
+mysql> CREATE USER 'djangoshop_adm'@'localhost' IDENTIFIED BY 'password';
 
-mysql> GRANT USAGE ON *.* TO 'djangoshop_admz'@'localhost';
+mysql> GRANT USAGE ON *.* TO 'djangoshop_adm'@'localhost';
 
 mysql> CREATE DATABASE djangoshop_rdbms;
 
 mysql> GRANT CREATE, DROP, DELETE, INSERT, SELECT, UPDATE, ALTER, INDEX,
-    -> REFERENCES ON djangoshop_rdbms.* TO 'djangoshop_admz'@'localhost';
+    -> REFERENCES ON djangoshop_rdbms.* TO 'djangoshop_adm'@'localhost';
 	
 mysql> FLUSH PRIVILEGES;
 

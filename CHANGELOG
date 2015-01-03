@@ -1,8 +1,122 @@
-Version 0.5.1 djangoshop-Cassandra version 0.5.0 profilerclient version 0.5.3 djangoshop-RDBMS version 1.0.0
-FIXED Added support for Cassandra App. New command option app directory name separated of the host url.
-FIXED Bug 33 - Cassandra App Models
-Bug 37 - Share templates between apps
-Version 0.5.0 djangoshop-RDBMS version 1.0.0 profilerclient version 0.5.2
-FIXED: Bug 32 - Benchmark with concurrency
-Minor changes in README files.
-Initial commit
+commit a8a87460b1b5e32610d4d0957cebc3062923bcec
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 00:59:37 2015 +0100
+
+    Version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.4
+    djangoshop-RDBMS version 1.0.0
+
+commit 5027e67fd421a76b53e353cfa161409236e219ee
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 00:54:24 2015 +0100
+
+    FIXED: Bug 40 - Print results summary after creating output file
+
+commit 88ccb01dfa1c91d9999c4d407b7a271720c25c0e
+Merge: ce41a29 a56152d
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 16:08:37 2015 +0100
+
+    Merge branch 'master' of https://github.com/westial/Django-Profiling-Environment
+
+commit ce41a29316319b48b362c8746790149a860e8003
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 16:06:28 2015 +0100
+
+    Removed project developing directories
+
+commit a56152d6d39a34ada98cddba289a3cf2e1626e34
+Author: Jaume Mila Bea <hub@westial.com>
+Date:   Fri Jan 2 15:54:27 2015 +0100
+
+    excluded
+
+commit 299ab51b3727e35e16fcdaf534a5ae8387130f23
+Author: Jaume Mila Bea <hub@westial.com>
+Date:   Fri Jan 2 15:54:11 2015 +0100
+
+    excluded
+
+commit 28428ac2e17325412d70dc1d7f879b1ba03b616c
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 15:06:39 2015 +0100
+
+    Version 0.5.1
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.3
+    djangoshop-RDBMS version 1.0.0
+
+commit ec53dd21e70f4b6e57aa26f260c4f29083fd42f3
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 15:06:39 2015 +0100
+
+    FIXED Added support for Cassandra App. New command option app directory name separated of the host url.
+
+commit f7e8a67f510ae5d060aa29fcefb9b987fe1c2107
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 15:06:39 2015 +0100
+
+    FIXED Bug 33 - Cassandra App Models
+
+commit d7e5f07199c8b3aa756a00d5264edf282ee1f7a8
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 00:36:18 2015 +0100
+
+    Bug 37 - Share templates between apps
+
+commit e104d350af78d29c12e7d846731ce540158c0df4
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 00:33:19 2015 +0100
+
+    Bug 37 - Share templates between apps
+
+commit b67eaa8f3c8c4999375cd6113130c321d6d80c39
+Author: Jaume Mila <jaume@westial.com>
+Date:   Fri Jan 2 00:32:57 2015 +0100
+
+    Bug 37 - Share templates between apps
+
+commit 0b4182013246f335875911f5ea3fda71aa40cd61
+Author: Jaume Mila <jaume@westial.com>
+Date:   Wed Dec 31 00:22:40 2014 +0100
+
+    Version 0.5.0
+    djangoshop-RDBMS version 1.0.0
+    profilerclient version 0.5.2
+
+commit b47b455d3ec76d5852c57a1f1a63220b6604a488
+Author: Jaume Mila <jaume@westial.com>
+Date:   Wed Dec 31 00:12:38 2014 +0100
+
+    FIXED: Bug 32 - Benchmark with concurrency
+
+commit 85c015868aeed9170471e28f94dd6724f79bb4f5
+Author: Jaume Mila <jaume@westial.com>
+Date:   Tue Dec 30 02:48:19 2014 +0100
+
+    Minor changes in README files.
+
+commit 3418c877b5a3f02f2a4fbbea1928d7ba3cbe9657
+Author: Jaume Mila <jaume@westial.com>
+Date:   Tue Dec 30 02:47:04 2014 +0100
+
+    Minor changes in README files.
+
+commit 45cac0b070790639691bcc50cde314dca1980e9b
+Author: Jaume Mila <jaume@westial.com>
+Date:   Tue Dec 30 02:42:52 2014 +0100
+
+    Minor changes in README file.
+
+commit 0e5ebae85e55a217de170238bddedef1b94d4eb0
+Author: Jaume Mila <jaume@westial.com>
+Date:   Tue Dec 30 02:41:07 2014 +0100
+
+    Minor changes in README file.
+
+commit b3821929fda0f60793d61ec325619bafe07cbe59
+Author: Jaume Mila <jaume@westial.com>
+Date:   Tue Dec 30 02:39:05 2014 +0100
+
+    Initial commit
