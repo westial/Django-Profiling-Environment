@@ -49,13 +49,14 @@ Files
 Results summaries
 -----------------
 
+```
 Results summary of file "reports/local_2015-01-03_14.50/report_cassandra.csv":
 
 Concurrent:			1000
 Failed purchases:	692
 
 Maximum value by field:
-	158.589 			for field "client_buy_elapsed_seconds"
+	158.589 	    for field "client_buy_elapsed_seconds"
 	36.8 			for field "server_buy_cpu_usage"
 	3263 			for field "server_buy_memory_usage"
 	15.742 			for field "server_buy_elapsed_seconds"
@@ -77,7 +78,7 @@ Concurrent:			1000
 Failed purchases:	25
 
 Maximum value by field:
-	124.053 			for field "client_buy_elapsed_seconds"
+	124.053 		for field "client_buy_elapsed_seconds"
 	37.5 			for field "server_buy_cpu_usage"
 	3107 			for field "server_buy_memory_usage"
 	0.935 			for field "server_buy_elapsed_seconds"
@@ -89,3 +90,4 @@ Response http codes:
 	25 found.		-100
 	0 found.		200
 (-100 is the code for unknown errors)
+```
