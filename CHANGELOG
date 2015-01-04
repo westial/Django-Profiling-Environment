@@ -1,3 +1,107 @@
+commit d828f486375b67bea4e5dd3cd83dc728b938d433
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 00:14:08 2015 +0100
+
+    Version 0.5.5
+    djangoshop Component version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.5
+    djangoshop-RDBMS version 1.0.0
+
+commit 931c4a65fe2bdccf199f194c22d70b0a1f0441b6
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 00:12:51 2015 +0100
+
+    FIXED: Bug 42 - No http response code on error
+
+commit 9b27e5072ec6156bafaf1edb309aef375585f806
+Merge: b1fc3cb 617cee9
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:57:51 2015 +0100
+
+    Added sample settings file
+
+commit b1fc3cbdd1b6303f073903e03dae1626271f3e47
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:51:04 2015 +0100
+
+    Added sample settings file
+
+commit 617cee9cfb8774d352ce4cc44900660eaec06aec
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:51:04 2015 +0100
+
+    Added sample settings file
+
+commit cdd802a56d39f610f2536a79f5e031f9d219100b
+Merge: f084710 3a35110
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:48:19 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit f084710231733d80141164fec15d9b7c5e3d595d
+Merge: 8397133 b888a06
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:11:06 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 3a35110da489280d783a62176d64263822151d5a
+Merge: 8397133 b888a06
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 14:11:06 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 839713356aa4fa18cc19debf4ce828bc533eaa4a
+Merge: 6f68c22 368d740
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 03:04:42 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit b888a06f4e431f4057d9a448bcedb5ac0ea249a4
+Merge: 6f68c22 368d740
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 03:04:42 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 6f68c2227475004453106054e28509d23a22fbda
+Merge: 90bd7eb 945d6c0
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 03:02:33 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 368d7406b0b64da3160641c3c1ce7dcba7d1f4c5
+Merge: 90bd7eb 945d6c0
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 03:02:33 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 90bd7ebb0d6eb7941da42a26d3eb1d0ba92178df
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 02:48:07 2015 +0100
+
+    Version 0.5.4
+    djangoshop Component version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.4
+    djangoshop-RDBMS version 1.0.0
+
+commit 945d6c01c4031096021f5efabea8c06d39acd170
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 02:48:07 2015 +0100
+
+    Version 0.5.4
+    djangoshop Component version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.4
+    djangoshop-RDBMS version 1.0.0
+
 commit e7a591388ecb447fbe5fea8e12ac33b1ab0abc6d
 Author: Jaume Mila <jaume@westial.com>
 Date:   Sun Jan 4 02:45:03 2015 +0100

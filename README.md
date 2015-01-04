@@ -43,14 +43,16 @@ deploying them in different nodes is an interesting scenario either to have in
 account.
 
 
-10 minutes and try
-------------------
+10 minutes to get ready
+-----------------------
 
-You can have the deployment running after no more than 10 minutes importing the
-OVA with all requirements and components ready to use.
+You can have a basic deployment running after no more than 10 minutes importing
+the OVA with all requirements and components ready to use.
 
 After VM configuration copy the profilerclient module and run from your 
 computer.
+
+Exported OVA from Virtualbox on 2015-01-05.
 
 
 ### Download the OVA
@@ -58,7 +60,7 @@ computer.
 http://repositories.westial.com/ova/CentOS-6.6-x86_64-Django-Profiling-Environment.ova
 
 
-### Details
+### OVA Description
 
 Installed from CentOS-6.6-x86_64-minimal.iso
 
@@ -70,7 +72,7 @@ Installed Django-Profiling-Environment by git from:
 https://github.com/westial/Django-Profiling-Environment
 
 
-#### Pre-installed
+#### Pre-installed into the OVA
 
 * Python 2.7.8
 * pip
@@ -80,7 +82,13 @@ https://github.com/westial/Django-Profiling-Environment
 * MySQL
 
 
-#### Django Profiling Environment
+#### Installed Django Profiling Environment into OVA
+
+Django Profiling Environment Version 0.5.6
+djangoshop Component version 0.5.2
+djangoshop-Cassandra version 0.5.0
+profilerclient version 0.5.5
+djangoshop-RDBMS version 1.0.0
 
 Project root: 
 /home/djangoshop/www/Django-Profiling-Environment

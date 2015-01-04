@@ -35,6 +35,6 @@ ul.errorlist li {
 }
 
 footer {
-    margin-top: 2em !important;
-    backgrond-color: #eee;
+    margin: 2em 1em 0 1em !important;
+    background-color: #eee;
 }
