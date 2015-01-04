@@ -74,7 +74,6 @@ DATABASES = {
             'init_command': 'SET storage_engine=INNODB'
         }
     },
-
     'mysql': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangoshop_rdbms',
@@ -87,7 +86,6 @@ DATABASES = {
             'init_command': 'SET storage_engine=INNODB'
         }
     },
-
     'cassandra': {      # Using authentication is recommended for production.
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'djangoshop_cassandra',
