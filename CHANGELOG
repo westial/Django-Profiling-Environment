@@ -1,3 +1,98 @@
+commit e7a591388ecb447fbe5fea8e12ac33b1ab0abc6d
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sun Jan 4 02:45:03 2015 +0100
+
+    IN PROGRESS: Bug 35 - Virtualbox machine for djangoshop component
+
+commit 5f181a5985747b3ab29cf3b88a333b12996ffb24
+Merge: 32ebecd 75f7219
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:21:17 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 32ebecdb4e2d9f3b64751b82e7be6c938549a2db
+Merge: 787a365 2ec5542
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:20:06 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 75f72196ec43d187633631ade4edde5baf3d19a3
+Merge: 787a365 2ec5542
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:20:06 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 787a3655790a774df5ba432a821e4c599d28aee9
+Merge: 1f59121 c625d77
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:17:00 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 2ec55428d9c2e4375499582a08966226ea6a542d
+Merge: 1f59121 c625d77
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:17:00 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 1f5912149bdd2af2e1860d436cb1bec29c8ca38c
+Merge: 8a071a6 5efc583
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:15:25 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit c625d77dedab6b6d7fff220b22fb132198eca14e
+Merge: 8a071a6 5efc583
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:15:25 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 8a071a64180e8f186f43ef6592db1ec682fb71f8
+Merge: da52691 e6465cd
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:14:11 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 5efc583153858c6fb17e2bc04c5dddad01109ae2
+Merge: da52691 e6465cd
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:14:11 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit da52691c02fe448b45f1a3d3a7eef0d100606af1
+Merge: 6a54408 9226c0d
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:05:41 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit e6465cd639994397beac3e696b122bc209932249
+Merge: 6a54408 9226c0d
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:05:41 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 6a54408bb0201fbd750262393cbfb9b9fba9fa54
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:02:19 2015 +0100
+
+    Created new CHANGELOG
+
+commit 9226c0d89312e823e4cba92c666a864fb5b743e5
+Author: Jaume Mila <jaume@westial.com>
+Date:   Sat Jan 3 01:02:19 2015 +0100
+
+    Created new CHANGELOG
+
 commit a8a87460b1b5e32610d4d0957cebc3062923bcec
 Author: Jaume Mila <jaume@westial.com>
 Date:   Sat Jan 3 00:59:37 2015 +0100
