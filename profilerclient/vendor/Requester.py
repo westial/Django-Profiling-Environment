@@ -106,15 +106,16 @@ class Requester:
                 response = urllib2.urlopen(request, data)
             else:
                 response = opener.open(request, data, timeout)
-        except urllib2.HTTPError, e:
-            # print 'httperror exception urllib2'
-            raise Exception(e.reason)
-        except urllib2.URLError, e:
-            # print 'urlerror exception urllib2'
-            raise Exception(e.reason)
-        except Exception:
-            print 'httperror exception urllib2'
+
+        except urllib2.HTTPError:
             raise
+
+        except urllib2.URLError:
+            raise
+
+        except Exception:
+            raise
+
         return response
 
     @classmethod

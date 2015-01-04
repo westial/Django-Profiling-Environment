@@ -135,7 +135,7 @@ def homepage_response(target):
 
         response = Requester.open_request(request=target)
 
-    except Exception, e:
+    except Exception:
         raise
 
     return response
@@ -402,14 +402,19 @@ def benchmark(rows, product_id, quantity, email, homepage_url,
         print_debug('Opened page for loading test')
 
     except Exception, e:
-        error_msg = append_error(error_msg, e.message)
 
-        response_code = HTTP_ERROR_UNKNOWN
+        try:
+            response_code = e.code
+            response_content = e.reason
+
+        except KeyError:
+            response_code = HTTP_ERROR_UNKNOWN
+            response_content = e.message
+
+        error_msg = append_error(error_msg, response_content)
 
         print_debug('Error loading page test {page}. Exception: {exception}'
-                    .format(page=homepage_url, exception=e.message))
-
-        #exit(EXIT_NO_LOADING_PAGE_RESPONSE)
+                    .format(page=homepage_url, exception=response_content))
 
     client_report = benchmarker.report()   # initializes client report
 
@@ -439,14 +444,19 @@ def benchmark(rows, product_id, quantity, email, homepage_url,
         print_debug('Purchase is done')
 
     except Exception, e:
-        error_msg = append_error(error_msg, e.message)
 
-        response_code = HTTP_ERROR_UNKNOWN
+        try:
+            response_code = e.code
+            response_content = e.reason
+
+        except KeyError:
+            response_code = HTTP_ERROR_UNKNOWN
+            response_content = e.message
+
+        error_msg = append_error(error_msg, response_content)
 
         print_debug('Error purchasing on "{page}". Exception: {exception}'
-                    .format(page=purchase_url, exception=e.message))
-
-        #exit(EXIT_NO_BUY_PAGE_RESPONSE)
+                    .format(page=purchase_url, exception=response_content))
 
     benchmarker.stop()
 
@@ -487,8 +497,9 @@ def print_summary(output_file, concurrent, recap_http_codes, recap_http_msgs,
     :param recap_http_codes: Counter
     :param recap_http_msgs: Counter
     """
-    recap_http_errors = recap_http_codes
-    recap_http_errors[200] = 0       # ignore no error response
+    # filter error responses
+    recap_http_errors = Counter(
+        code for code in recap_http_codes if code >= 400)
 
     failed_purchases = len(list(recap_http_errors.elements()))
 
@@ -506,7 +517,7 @@ def print_summary(output_file, concurrent, recap_http_codes, recap_http_msgs,
 
     print
 
-    print 'Maximum value by field:'
+    print 'Larger quota by field:'
 
     for record, max_value in kwargs.iteritems():
         print '\t{!s} \t\t\tfor field "{!s}"'.format(max_value, record)
