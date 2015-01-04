@@ -1,0 +1,21 @@
+# The content of this file is the printed information of the commandline module
+# profilerclient.py about the last job is done.
+
+Results summary of file "reports/local_2015-01-03_14.50/report_rdbms.csv":
+
+Concurrent:			1000
+Failed purchases:	25
+
+Maximum value by field:
+	124.053 		for field "client_buy_elapsed_seconds"
+	37.5 			for field "server_buy_cpu_usage"
+	3107 			for field "server_buy_memory_usage"
+	0.935 			for field "server_buy_elapsed_seconds"
+
+Common errors:
+	25 found.		No JSON object could be decoded
+
+Response http codes:
+	25 found.		-100
+	0 found.		200
+(-100 is the code for unknown errors)

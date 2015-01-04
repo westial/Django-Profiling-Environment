@@ -33,3 +33,8 @@ ul.errorlist {
 ul.errorlist li {
     color: red;
 }
+
+footer {
+    margin-top: 2em !important;
+    backgrond-color: #eee;
+}

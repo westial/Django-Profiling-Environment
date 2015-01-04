@@ -18,12 +18,16 @@
 <nav role="navigation" class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="{{ request.get_full_path|www_app }}/" class="navbar-brand">Django Shop (Profiling)</a>
+            <a href="https://github.com/westial/Django-Profiling-Environment"
+               class="navbar-brand">
+                Django Profiling Environment
+            </a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ request.get_full_path|www_app }}/">Home</a></li>
-            <li><a href="/rdbms">Version RDBMS</a></li>
-            <li><a href="/cassandra">Version Cassandra</a></li>
+            <li{% if request.get_full_path|www_app = "/rdbms" %} class="active"{% endif %}>
+                <a href="/rdbms">Version RDBMS</a></li>
+            <li{% if request.get_full_path|www_app = "/cassandra" %} class="active"{% endif %}>
+            <a href="/cassandra">Version Cassandra</a></li>
         </ul>
     </div>
     <!-- /.container-fluid -->
@@ -35,5 +39,14 @@
 <div id="content">
     {% block content %}{% endblock %}
 </div>
+<footer>
+    <p>This webpage is part of a testing environment, this is not a real
+    e-commerce site. Visit the project site for more information about:
+    <a href="https://github.com/westial/Django-Profiling-Environment"
+       target="_blank">https://github.com/westial/Django-Profiling-Environment
+    </a></p>
+    <p>Licensed under <a href="http://www.gnu.org/licenses/gpl.txt"
+                         target="_blank">GPL v-3</a>.</p>
+</footer>
 </body>
 </html>

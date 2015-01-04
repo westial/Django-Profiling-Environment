@@ -40,6 +40,12 @@ deploying them in different nodes is an interesting option either to have in
 account.
 
 
+10 minutes to try
+-----------------
+
+You can have the deployment running after no more than 10 minutes. 
+
+
 Components
 ----------
 

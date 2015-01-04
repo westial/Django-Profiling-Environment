@@ -22,7 +22,10 @@ Requirements
 * python-dev
 * libpcre3
 * libpcre3-dev
-* Python libraries: Django 1.7.1, django-bootstrap3
+* MySQL 5.5
+* libmysqlclient-dev
+* Python libraries: Django 1.7.1, django-bootstrap3, MySQLdb|mysqlclient, 
+  django-cassandra-engine
 
 
 Directories
@@ -52,9 +55,6 @@ Interesting options for this App benchmarking:
 Requirements
 ------------
 
-* MySQL 5.5
-* libmysqlclient-dev
-* Python libraries: MySQLdb, django-cassandra-engine
 	
 
 Database configuration
