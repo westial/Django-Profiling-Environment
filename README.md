@@ -46,14 +46,18 @@ account.
 10 minutes to get ready
 -----------------------
 
-You can have a basic deployment running after no more than 10 minutes importing
-the OVA with all requirements and components ready to use.
-
-After VM configuration copy the profilerclient module and run from your 
-computer.
-
 Exported OVA from Virtualbox on 2015-01-05.
 
+You can have a simple deployment running after no more than 10 minutes importing
+the OVA with all requirements and components ready to use. Basic usage:
+
+1. Download OVA.
+2. Import Appliance. Don't reinitialize the MAC address.
+3. Configure VM network.
+4. If IP of the VM is not 192.168.1.45, reconfigure nginx (djangoshop_nginx.conf).
+5. Copy profilerclient module from VM to the host.
+6. Restart VM.
+7. Run profilerclient from host.
 
 ### Download the OVA
 
@@ -84,10 +88,10 @@ https://github.com/westial/Django-Profiling-Environment
 
 #### Installed Django Profiling Environment into OVA
 
-Django Profiling Environment Version 0.5.6
+Django Profiling Environment Version 0.5.7
 djangoshop Component version 0.5.2
 djangoshop-Cassandra version 0.5.0
-profilerclient version 0.5.5
+profilerclient version 0.5.6
 djangoshop-RDBMS version 1.0.0
 
 Project root: 
