@@ -498,8 +498,11 @@ def print_summary(output_file, concurrent, recap_http_codes, recap_http_msgs,
     :param recap_http_msgs: Counter
     """
     # filter error responses
-    recap_http_errors = Counter(
-        code for code in recap_http_codes if code >= 400)
+    recap_http_errors = Counter({
+        code: found for code, found
+        in recap_http_codes.iteritems()
+        if code >= 400
+    })
 
     failed_purchases = len(list(recap_http_errors.elements()))
 

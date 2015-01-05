@@ -129,9 +129,6 @@ Other Readme files with information per component:
 
 ### profilerclient
 
-This python module launches that does the benchmark over djangoshop and records
-the results into a csv file.
-
 This tool makes a batch of concurrent requests to the djangoshop component 
 simulating the "purchase" click with an special option "profiling" enabled.
 With this enabled option, the djangoshop component will returns a JSON formatted
@@ -140,8 +137,8 @@ response with its own benchmarking information.
 
 ### djangoshop
 
-The Django site where the customer clicks on the purchase button. The list of
-products is accessible in this website too.
+The Django site where the customer can see the products and submitting the form
+could acquire them.
 
 
 Recommendations
