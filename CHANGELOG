@@ -1,3 +1,36 @@
+commit 1001073639b6cc34284308f76a1b1781b0fd84df
+Merge: 9ed925c 6815354
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 01:02:30 2015 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 9ed925c5240fe00ba887c2a471057565aa67fa53
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 00:53:40 2015 +0100
+
+    Version 0.5.6
+    djangoshop Component version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.5
+    djangoshop-RDBMS version 1.0.0
+
+commit 6815354831d8ae25cbcc25b0444c0431c0240d06
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 00:53:40 2015 +0100
+
+    Version 0.5.6
+    djangoshop Component version 0.5.2
+    djangoshop-Cassandra version 0.5.0
+    profilerclient version 0.5.5
+    djangoshop-RDBMS version 1.0.0
+
+commit 095ced643030918f34c6ba09c12724f025014e9e
+Author: Jaume Mila <jaume@westial.com>
+Date:   Mon Jan 5 00:48:18 2015 +0100
+
+    Bug 35 - Virtual machine to get environment in a few minutes
+
 commit d828f486375b67bea4e5dd3cd83dc728b938d433
 Author: Jaume Mila <jaume@westial.com>
 Date:   Mon Jan 5 00:14:08 2015 +0100

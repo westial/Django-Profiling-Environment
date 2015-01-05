@@ -84,10 +84,10 @@ https://github.com/westial/Django-Profiling-Environment
 
 #### Installed Django Profiling Environment into OVA
 
-Django Profiling Environment Version 0.5.6
+Django Profiling Environment Version 0.5.7
 djangoshop Component version 0.5.2
 djangoshop-Cassandra version 0.5.0
-profilerclient version 0.5.5
+profilerclient version 0.5.6
 djangoshop-RDBMS version 1.0.0
 
 Project root: 
